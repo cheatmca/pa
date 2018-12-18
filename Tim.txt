@@ -1,0 +1,71 @@
+#prediction - Navie bayes method
+
+#important to install this pacakge
+install.packages("e1071")
+#pacakage is installed & using it from library
+library(e1071)
+
+data(iris)
+names(iris)
+attach(iris)
+range(iris[,"Petal.Width"])
+range(iris[,"Petal.Length"])
+range(iris[,"Sepal.Width"])
+range(iris[,"Sepal.Length"])
+
+model<-naiveBayes(Species~.,data=iris)
+model
+
+#give your random numbers for the length and width b/w the range of each value , so u can predict which species fall under that.
+
+Sample=data.frame(Sepal.length=6, Sepal.Width=3 , Petal.Length=5, Petal.Width=1.5 )
+
+#predict the species
+
+predict(model,Sample)
+
+#----------------------------------------------------------------------#
+
+#Time series
+#using ari passengers data
+data(AirPassengers)
+
+#adding it into air variable
+air=AirPassengers
+air
+
+#ts is  function for time series , loading timeseries into ts
+airts=ts(air)
+airts
+
+#plot the timeseires
+plot.ts(airts)
+
+#decompose the data air
+decair= decompose(air)
+
+#plot the decomposed data, which gives u all types of graphs like
+#timeseries , cycle across years ,aggregate the cycles and display a year on year trend,
+plot(decair)
+
+#boxplot
+boxplot(AirPassengers~cycle(AirPassengers))
+
+#to find SMA - simple moving average 
+#follow theese steps
+
+#go to terminal , run this (do not put #symbol , #is used for comments in R)
+
+# sudo apt-get install libcurl4 - gnutls -dev
+
+#install packages
+install.packages("devtools")
+install.packages("RCurl")
+install.packages("TTR")
+library(TTR)
+
+#find SMA , here n=3 , 3 means 3 week moving avg
+value <- SMA(AirPassengers,n=3) 
+
+#plot SMA
+plot.ts(value)

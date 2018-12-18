@@ -1,0 +1,71 @@
+#Logistic regression
+# reading a .csv file and storing in variable
+mydata = read.csv(file="//Users//shivar//Downloads//Predective analytics//Resort_Visit.csv")  
+
+#display 
+mydata 
+
+#loading each column data into a separate variable
+visit = mydata$Resort_Visit 
+income = mydata$Family_Income
+attitude = mydata$Attitude.Towards.Travel
+importance = mydata$Importance_Vacation 
+size = mydata$House_Size 
+age = mydata$Age._Head 
+
+# display 
+visit
+income
+attitude
+importance
+size
+age
+
+#Converting response variable to discrete 
+#the data will be read as string , to convert it into numerical , factor is used.
+visit = factor(visit)
+
+#Correlation Matrix 
+cor(mydata)
+
+#Interpretation: Correlation between X variables should be low
+
+#Checking relation between Xs and Y 
+# FUN -> Function 
+#here Y is visit variable , others are X
+aggregate(income ~visit, FUN = mean) 
+aggregate(attitude ~visit, FUN = mean) 
+aggregate(importance ~visit, FUN = mean) 
+aggregate(size ~visit, FUN = mean)
+aggregate(age ~visit, FUN = mean)
+
+#Checking relation between Xs and Y ??? box plot 
+boxplot(income ~ visit) 
+boxplot(attitude ~ visit)
+boxplot(importance ~ visit) 
+boxplot(size ~ visit) 
+boxplot(age ~ visit)
+
+#Perform Logistic regression 
+#glm() is the function that tells R to run a generalized linear model
+#here Y is dependent variable
+#logit is a function that maps probability , something similar to log table
+model = glm(visit ~ income + attitude + importance + size + age, family = binomial(logit)) 
+model
+
+#summary
+summary(model)
+
+#prediction o
+predict(model,type = 'response')
+residuals(model,type = 'deviance')
+
+predclass = ifelse(predict(model, type ='response')>0.5,"1","0")
+predclass
+
+mytable = table(visit, predclass) 
+mytable
+
+prop.table(mytable)
+
+

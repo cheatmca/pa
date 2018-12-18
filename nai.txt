@@ -1,0 +1,15 @@
+
+install.packages("e1071")
+library(e1071)
+data(iris)
+iris
+attach(iris)
+iris[1,]
+range(iris$Sepal.Length)
+range(iris$Sepal.Width)
+range(iris$Petal.Length)
+range(iris$Petal.Width)
+model=naiveBayes(Species~.,data=iris)
+model
+sample=data.frame(Sepal.Length=5.1,Sepal.Width=3.5,Petal.Length=1.4,Petal.Width=0.2)
+predict(model,sample)
